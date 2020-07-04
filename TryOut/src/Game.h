@@ -1,9 +1,13 @@
 #pragma once
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include <glm/geometric.hpp>
+#include <vector>
 
 #include "SpriteRenderer.h"
 #include "ErrorHandling.h"
 #include "ResourceManager.h"
+#include "GameLevel.h"
 
 enum class GameState {
 	GAME_ACTIVE,
@@ -15,8 +19,10 @@ class Game
 {
 private:
 	unsigned int m_Width, m_Height;
-	bool m_keys[1024];
+	bool m_Keys[1024];
 	GameState m_State;
+	std::vector<GameLevel> Levels;
+	unsigned int level;
 public:
 	Game(unsigned int width, unsigned int height);
 	~Game();

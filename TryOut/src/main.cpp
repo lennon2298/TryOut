@@ -21,6 +21,7 @@ int main() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
 	GLFWwindow* window = glfwCreateWindow(800, 600, "Test Window", nullptr, nullptr);
 
@@ -53,7 +54,7 @@ int main() {
 	float deltaTime = 0.0f;
 	float lastFrame = 0.0f;
 
-	TryOut.SetState(GameState::GAME_MENU);
+	TryOut.SetState(GameState::GAME_ACTIVE);
 
 	while (!glfwWindowShouldClose(window)) {
 
@@ -66,7 +67,7 @@ int main() {
 
 		TryOut.Update(deltaTime);
 
-		glClearColor(0.1f, 0.5f, 0.2f, 1.0f);
+		//glClearColor(0.1f, 0.5f, 0.2f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		TryOut.Render();
@@ -97,7 +98,5 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-	// make sure the viewport matches the new window dimensions; note that width and 
-	// height will be significantly larger than specified on retina displays.
 	glViewport(0, 0, width, height);
 }

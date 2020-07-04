@@ -9,25 +9,25 @@ Shader::~Shader() {
 
 void Shader::DeleteShader()
 {
-	GLCall(glDeleteProgram(this->m_ID));
+	GLCall(glDeleteProgram(m_ID));
 }
 
 void Shader::Compile(const std::string& vertexFile, const std::string& fragmentFile)
 {
-	this->m_ID = glCreateProgram();
+	m_ID = glCreateProgram();
 	unsigned int vs = CompileShader(vertexFile, GL_VERTEX_SHADER);
 	unsigned int fs = CompileShader(fragmentFile, GL_FRAGMENT_SHADER);
 
 	checkCompileErrors(vs, "VERTEX");
 	checkCompileErrors(fs, "FRAGMENT");
 
-	GLCall(glAttachShader(this->m_ID, vs));
-	GLCall(glAttachShader(this->m_ID, fs));
-	GLCall(glLinkProgram(this->m_ID));
+	GLCall(glAttachShader(m_ID, vs));
+	GLCall(glAttachShader(m_ID, fs));
+	GLCall(glLinkProgram(m_ID));
 
-	GLCall(glValidateProgram(this->m_ID));
+	GLCall(glValidateProgram(m_ID));
 
-	checkCompileErrors(this->m_ID, "PROGRAM");
+	checkCompileErrors(m_ID, "PROGRAM");
 
 	GLCall(glDeleteShader(vs));
 	GLCall(glDeleteShader(fs));
@@ -36,7 +36,7 @@ void Shader::Compile(const std::string& vertexFile, const std::string& fragmentF
 
 Shader &Shader::Bind()
 {
-	GLCall(glUseProgram(this->m_ID));
+	GLCall(glUseProgram(m_ID));
 	return *this;
 }
 
@@ -92,7 +92,7 @@ int Shader::GetUniformLoc(const std::string& name)
 	if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end()) {
 		return m_UniformLocationCache[name];
 	}
-	GLCall(int location = glGetUniformLocation(this->m_ID, name.c_str()));
+	GLCall(int location = glGetUniformLocation(m_ID, name.c_str()));
 	m_UniformLocationCache[name] = location;
 	return location;
 }

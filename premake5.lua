@@ -36,8 +36,8 @@ project "TryOut"
     {
         "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.cpp",
-        "%{prj.name}/vendor/stb_image/**.h",
-		"%{prj.name}/vendor/stb_image/**.cpp",
+        "%{prj.name}/vendor/stb/include/**.h",
+		"%{prj.name}/vendor/stb/include/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl",
     }
@@ -69,10 +69,10 @@ project "TryOut"
             "GE_PLATFORM_WINDOWS"
         }
 
-        -- postbuildcommands
-        -- {
-        --     ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
-        -- }
+        postbuildcommands
+        {
+            ("{COPY} ./Resources  ../bin/" .. outputdir .. "/%{prj.name}/Resources")
+        }
 
     filter "configurations:Debug"
         defines "GE_DEBUG"

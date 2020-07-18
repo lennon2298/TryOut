@@ -71,6 +71,7 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		TryOut.Render();
+		TryOut.Update(deltaTime);
 
 		glfwSwapBuffers(window);
 

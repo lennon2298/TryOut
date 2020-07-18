@@ -10,10 +10,9 @@
 #include "ResourceManager.h"
 
 class GameLevel {
-private:
+public:
 	std::vector<GameObject> m_Bricks;
 
-public:
 	GameLevel() {};
 
 	void Load(const char* file, unsigned int levelWidth, unsigned int levelHeight);

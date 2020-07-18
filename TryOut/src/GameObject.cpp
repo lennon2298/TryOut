@@ -30,6 +30,11 @@ bool GameObject::IsDestroyed()
 	return m_Destroyed;
 }
 
+void GameObject::Destroy()
+{
+	m_Destroyed = true;
+}
+
 float GameObject::GetPosition()
 {
 	return m_Position.x;

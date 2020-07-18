@@ -2,7 +2,7 @@
 #include "Texture.h"
 
 Texture::Texture()
-	: m_Width(0), m_Height(0), m_Internal_Format(GL_RGB), m_Image_Format(GL_RGB), m_Wrap_S(GL_CLAMP_TO_BORDER), m_Wrap_T(GL_CLAMP_TO_BORDER), m_Filter_Min(GL_LINEAR), m_Filter_Max(GL_LINEAR)
+	: m_Width(0), m_Height(0), m_Internal_Format(GL_RGB), m_Image_Format(GL_RGB), m_Wrap_S(GL_REPEAT), m_Wrap_T(GL_REPEAT), m_Filter_Min(GL_LINEAR), m_Filter_Max(GL_LINEAR)
 {
 	GLCall(glGenTextures(1, &m_ID));
 }

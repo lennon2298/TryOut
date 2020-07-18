@@ -8,6 +8,7 @@
 #include "ErrorHandling.h"
 #include "ResourceManager.h"
 #include "GameLevel.h"
+#include "BallObject.h"
 
 enum class GameState {
 	GAME_ACTIVE,
@@ -32,6 +33,8 @@ public:
 	void ProcessInput(float dt);
 	void Render();
 	void Update(float dt);
+
+	void DoCollisions();
 
 	void SetState(GameState state);
 	void SetKeyPress(int key);

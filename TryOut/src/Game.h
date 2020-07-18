@@ -9,6 +9,7 @@
 #include "ResourceManager.h"
 #include "GameLevel.h"
 #include "BallObject.h"
+#include "CollisionControl.h"
 
 enum class GameState {
 	GAME_ACTIVE,
@@ -34,11 +35,13 @@ public:
 	void Render();
 	void Update(float dt);
 
-	void DoCollisions();
+	bool DoCollisions();
 
 	void SetState(GameState state);
 	void SetKeyPress(int key);
 	void SetKeyRelease(int key);
 	GameState GetState();
+	void ResetPlayer();
+	void ResetLevel();
 
 };

@@ -11,7 +11,10 @@ const float BALL_RADIUS = 12.5f;
 GameObject *Player;
 BallObject* Ball;
 
-bool checkCollisions(GameObject& one, GameObject& two);
+bool collision;
+int count = 10;
+
+//bool checkCollisions(GameObject& one, GameObject& two);
 
 Game::Game(unsigned int width, unsigned int height)
 	:m_State(GameState::GAME_ACTIVE), m_Keys(), m_Width(width), m_Height(height), level(0)
@@ -103,20 +106,75 @@ void Game::Render()
 void Game::Update(float dt)
 {
 	Ball->Move(dt, this->m_Width);
-	DoCollisions();
+	//DoCollisions();
+	if (!collision) {
+		collision = DoCollisions();
+	}
+	else {
+		count--;
+		if (count == 0) {
+			collision = false;
+			count = 10;
+		}
+	}
+	if (Ball->m_Position.y > m_Height) {
+		ResetPlayer();
+	}
 }
 
-void Game::DoCollisions()
+bool Game::DoCollisions()
 {
+	bool collided = false;
 	for (GameObject& box : Levels[level].m_Bricks) {
 		if (!box.IsDestroyed()) {
-			if (checkCollisions(*Ball, box)) {
+			Collision collision = CollisionControl::CheckCollisions(*Ball, box);
+			if (std::get<0>(collision)) {
+				collided = true;
 				if (!box.IsSolid()) {
 					box.Destroy();
 				}
+				Direction dir = std::get<1>(collision);
+				glm::vec2 diff_vec = std::get<2>(collision);
+				if (dir == Direction::LEFT || dir == Direction::RIGHT) {
+					Ball->m_Velocity.x = -Ball->m_Velocity.x;
+
+					float penetration = Ball->m_Radius - std::abs(diff_vec.x);
+					if (dir == Direction::LEFT) {
+						Ball->m_Position.x += penetration;
+					}
+					else {
+						Ball->m_Position.x -= penetration;
+					}
+				}
+				else {
+					Ball->m_Velocity.y = -Ball->m_Velocity.y;
+
+					float penetration = Ball->m_Radius - std::abs(diff_vec.y);
+					if (dir == Direction::UP) {
+						Ball->m_Position.y += penetration;
+					}
+					else {
+						Ball->m_Position.y -= penetration;
+					}
+				}
 			}
 		}
+
+		Collision result = CollisionControl::CheckCollisions(*Ball, *Player);
+		if (!Ball->m_Stuck && std::get<0>(result)) {
+			float centerBoard = Player->m_Position.x + Player->m_Size.x / 2.0f;
+			float distance = (Ball->m_Position.x + Ball->m_Radius) - centerBoard;
+			float percentage = distance / (Player->m_Size.x / 2.0f);
+			// then move accordingly
+			float strength = 2.0f;
+			glm::vec2 oldVelocity = Ball->m_Velocity;
+			Ball->m_Velocity.x = INITIAL_BALL_VELOCITY.x * percentage * strength;
+			Ball->m_Velocity.y = -1 * abs(Ball->m_Velocity.y);
+			Ball->m_Velocity = glm::normalize(Ball->m_Velocity) * glm::length(oldVelocity);
+			collided = true;
+		}
 	}
+	return collided;
 }
 
 void Game::SetState(GameState state)
@@ -139,31 +197,22 @@ GameState Game::GetState()
 	return m_State;
 }
 
-bool checkCollisions(GameObject& one, GameObject& two) {
-	bool collisionX = one.m_Position.x + one.m_Size.x >= two.m_Position.x && two.m_Position.x + two.m_Size.x >= one.m_Position.x;
-	bool collisionY = one.m_Position.y + one.m_Size.y >= two.m_Position.y && two.m_Position.y + two.m_Size.y >= one.m_Position.y;
-
-	return collisionX && collisionY;
+void Game::ResetLevel()
+{
+	if (this->level == 0)
+		this->Levels[0].Load("levels/one.lvl", this->m_Width, this->m_Height / 2);
+	else if (this->level == 1)
+		this->Levels[1].Load("levels/two.lvl", this->m_Width, this->m_Height / 2);
+	else if (this->level == 2)
+		this->Levels[2].Load("levels/three.lvl", this->m_Width, this->m_Height / 2);
+	else if (this->level == 3)
+		this->Levels[3].Load("levels/four.lvl", this->m_Width, this->m_Height / 2);
 }
 
-bool checkCollisions(BallObject& one, GameObject& two) {
-	glm::vec2 center(one.m_Position + one.m_Radius);
-
-	glm::vec2 aabb_half_extents(
-		two.m_Size.x / 2, two.m_Size.y / 2
-	);
-
-	glm::vec2 aabb_center(
-		two.m_Position.x + aabb_half_extents.x,
-		two.m_Position.y + aabb_half_extents.y
-	);
-
-	glm::vec2 difference = center - aabb_center;
-
-	glm::vec2 clamped = glm::clamp(difference, -aabb_half_extents, aabb_half_extents);
-
-	glm::vec2 closest = aabb_center + clamped;
-	difference = closest - center;
-
-	return glm::length(difference) < one.m_Radius;
+void Game::ResetPlayer()
+{
+	// reset player/ball stats
+	Player->m_Size = PLAYER_SIZE;
+	Player->m_Position = glm::vec2(this->m_Width / 2.0f - PLAYER_SIZE.x / 2.0f, this->m_Height - PLAYER_SIZE.y);
+	Ball->Reset(Player->m_Position + glm::vec2(PLAYER_SIZE.x / 2.0f - BALL_RADIUS, -(BALL_RADIUS * 2.0f)), INITIAL_BALL_VELOCITY);
 }

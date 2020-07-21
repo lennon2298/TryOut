@@ -133,6 +133,9 @@ bool Game::DoCollisions()
 				collided = true;
 				if (!box.IsSolid()) {
 					box.Destroy();
+					Levels[level].m_Bricks.erase(Levels[level].m_Bricks.begin() + box.GetIterator());
+					
+					
 				}
 				Direction dir = std::get<1>(collision);
 				glm::vec2 diff_vec = std::get<2>(collision);

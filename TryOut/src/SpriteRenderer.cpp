@@ -32,26 +32,27 @@ void SpriteRenderer::DrawSprite(Texture& texture, glm::vec2 position, glm::vec2 
 	texture.Bind();
 
 	glBindVertexArray(m_QuadVAO);
+	glDisableVertexAttribArray(2);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindVertexArray(0);
 }
 
-void SpriteRenderer::DrawInstanced(unsigned int instanced, glm::vec2& translationArray, glm::vec2 size, float rotate, glm::vec3 color)
+void SpriteRenderer::DrawInstanced(unsigned int instanced, glm::vec2& translationArray, glm::vec2 size, glm::vec3 color, float rotate)
 {
 	m_Shader.Bind();
 
 	unsigned int instanceVBO;
-	glGenBuffers(1, &instanceVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * instanced, &translationArray[0], GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	GLCall(glGenBuffers(1, &instanceVBO));
+	GLCall(glBindBuffer(GL_ARRAY_BUFFER, instanceVBO));
+	GLCall(glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * instanced, &translationArray[0], GL_STATIC_DRAW));
+	//GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
 
-	glEnableVertexAttribArray(2);
-	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
 	GLCall(glBindVertexArray(m_QuadVAO));
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glVertexAttribDivisor(2, 1);
+	GLCall(glEnableVertexAttribArray(2));
+	GLCall(glBindBuffer(GL_ARRAY_BUFFER, instanceVBO));
+	GLCall(glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0));
+	GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
+	GLCall(glVertexAttribDivisor(2, 1));
 
 	//m_Shader.GetUniform1i("u_Texture", 0);
 	glm::mat4 model = glm::mat4(1.0f);
@@ -60,9 +61,9 @@ void SpriteRenderer::DrawInstanced(unsigned int instanced, glm::vec2& translatio
 	m_Shader.GetUniformMat4f("u_Model", model);
 	m_Shader.GetUniform3f("u_SpriteColor", color);
 
-	glBindVertexArray(m_QuadVAO);
-	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, instanced);
-	glBindVertexArray(0);
+	//glBindVertexArray(m_QuadVAO);
+	GLCall(glDrawArraysInstanced(GL_TRIANGLES, 0, 6, instanced));
+	//glBindVertexArray(0);
 }
 
 void SpriteRenderer::InitRenderData()
@@ -93,5 +94,5 @@ void SpriteRenderer::InitRenderData()
 	GLCall(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float))));
 
 	GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
-	GLCall(glBindVertexArray(0));
+	//GLCall(glBindVertexArray(0));
 }

@@ -36,10 +36,13 @@ void GameLevel::DrawInstanced(SpriteRenderer& renderer)
 	glActiveTexture(GL_TEXTURE0);
 	ResourceManager::GetTexture("block_solid").Bind();
 	glm::vec2 size(unit_width - 1.0, unit_height);
-	renderer.DrawInstanced(solidCount, *translationsSolid, size);
-	/*glActiveTexture(GL_TEXTURE0);
+	renderer.DrawInstanced(solidCount, *translationsSolid, size, glm::vec3(0.8f, 0.8f, 0.7f));
+	glActiveTexture(GL_TEXTURE0);
 	ResourceManager::GetTexture("block").Bind();
-	renderer.DrawInstanced(oneCount, *translationsOne, size);*/
+	renderer.DrawInstanced(oneCount, *translationsOne, size, glm::vec3(0.2f, 0.6f, 1.0f));
+	renderer.DrawInstanced(oneCount, *translationsTwo, size, glm::vec3(0.0f, 0.7f, 0.0f));
+	renderer.DrawInstanced(oneCount, *translationsThree, size, glm::vec3(0.8f, 0.8f, 0.4f));
+	renderer.DrawInstanced(oneCount, *translationsFour, size, glm::vec3(1.0f, 0.5f, 0.0f));
 }
 
 bool GameLevel::isCompleted()
@@ -63,11 +66,12 @@ void GameLevel::Init(std::vector<std::vector<unsigned int>> tileData, unsigned i
 			{
 				glm::vec2 pos(unit_width * x, unit_height * y);
 				glm::vec2 size(unit_width - 1.0, unit_height);
-				GameObject obj(pos, size, ResourceManager::GetTexture("block_solid"), glm::vec3(0.8f, 0.8f, 0.7f));
+				GameObject obj(pos, size, ResourceManager::GetTexture("block_solid"), iterator, glm::vec3(0.8f, 0.8f, 0.7f));
 				obj.SetSolid();
 				this->m_Bricks.push_back(obj);
 				translationsSolid[solidCount] = pos;
 				solidCount++;
+				iterator++;
 			}
 			else if(tileData[y][x] > 1) {
 				glm::vec2 pos(unit_width * x, unit_height * y);
@@ -95,9 +99,9 @@ void GameLevel::Init(std::vector<std::vector<unsigned int>> tileData, unsigned i
 				}
 
 				glm::vec2 size(unit_width - 1, unit_height);
-				GameObject obj(pos, size, ResourceManager::GetTexture("block"), color);
-				
-				//this->m_Bricks.push_back(obj);
+				GameObject obj(pos, size, ResourceManager::GetTexture("block"), iterator, color);
+				iterator++;
+				this->m_Bricks.push_back(obj);
 			}
 		}
 	}

@@ -9,6 +9,9 @@ uniform mat4 u_Model;
 
 void main()
 {
-    gl_Position = u_Projection * u_Model * vec4(v_Vertex + v_Offset, 0.0, 1.0);
+    vec4 pos = u_Model * vec4(v_Vertex, 0.0, 1.0);
+    pos.xy += v_Offset;
+		
+    gl_Position = u_Projection * pos;
     TexCoords = v_TexCoords;
 } 

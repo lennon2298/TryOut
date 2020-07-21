@@ -97,7 +97,8 @@ void Game::Render()
 		spriteRenderer->DrawSprite(ResourceManager::GetTexture("pepe"),
 			glm::vec2(0.0f, 0.0f), glm::vec2(this->m_Width, this->m_Height), 0.0f);
 		// draw level
-		this->Levels[this->level].Draw(*spriteRenderer);
+		//this->Levels[this->level].Draw(*spriteRenderer);
+		this->Levels[this->level].DrawInstanced(*spriteRenderer);
 		Player->Draw(*spriteRenderer);
 		Ball->Draw(*spriteRenderer);
 	}

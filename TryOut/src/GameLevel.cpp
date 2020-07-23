@@ -26,7 +26,7 @@ void GameLevel::Load(const char* file, unsigned int levelWidth, unsigned int lev
 
 void GameLevel::Draw(SpriteRenderer& renderer)
 {
-	for (GameObject& tile : this->m_Bricks)
+	for (GameObject& tile : this->m_BreakBrick)
 		if (!tile.IsDestroyed())
 			tile.Draw(renderer);
 }
@@ -37,12 +37,12 @@ void GameLevel::DrawInstanced(SpriteRenderer& renderer)
 	ResourceManager::GetTexture("block_solid").Bind();
 	glm::vec2 size(unit_width - 1.0, unit_height);
 	renderer.DrawInstanced(solidCount, *translationsSolid, size, glm::vec3(0.8f, 0.8f, 0.7f));
-	glActiveTexture(GL_TEXTURE0);
-	ResourceManager::GetTexture("block").Bind();
-	renderer.DrawInstanced(oneCount, *translationsOne, size, glm::vec3(0.2f, 0.6f, 1.0f));
-	renderer.DrawInstanced(oneCount, *translationsTwo, size, glm::vec3(0.0f, 0.7f, 0.0f));
-	renderer.DrawInstanced(oneCount, *translationsThree, size, glm::vec3(0.8f, 0.8f, 0.4f));
-	renderer.DrawInstanced(oneCount, *translationsFour, size, glm::vec3(1.0f, 0.5f, 0.0f));
+	//glActiveTexture(GL_TEXTURE0);
+	//ResourceManager::GetTexture("block").Bind();
+	//renderer.DrawInstanced(oneCount, *translationsOne, size, glm::vec3(0.2f, 0.6f, 1.0f));
+	//renderer.DrawInstanced(oneCount, *translationsTwo, size, glm::vec3(0.0f, 0.7f, 0.0f));
+	//renderer.DrawInstanced(oneCount, *translationsThree, size, glm::vec3(0.8f, 0.8f, 0.4f));
+	//renderer.DrawInstanced(oneCount, *translationsFour, size, glm::vec3(1.0f, 0.5f, 0.0f));
 }
 
 bool GameLevel::isCompleted()
@@ -102,6 +102,7 @@ void GameLevel::Init(std::vector<std::vector<unsigned int>> tileData, unsigned i
 				GameObject obj(pos, size, ResourceManager::GetTexture("block"), iterator, color);
 				iterator++;
 				this->m_Bricks.push_back(obj);
+				this->m_BreakBrick.push_back(obj);
 			}
 		}
 	}

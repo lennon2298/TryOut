@@ -97,7 +97,7 @@ void Game::Render()
 		spriteRenderer->DrawSprite(ResourceManager::GetTexture("pepe"),
 			glm::vec2(0.0f, 0.0f), glm::vec2(this->m_Width, this->m_Height), 0.0f);
 		// draw level
-		//this->Levels[this->level].Draw(*spriteRenderer);
+		this->Levels[this->level].Draw(*spriteRenderer);
 		this->Levels[this->level].DrawInstanced(*spriteRenderer);
 		Player->Draw(*spriteRenderer);
 		Ball->Draw(*spriteRenderer);
@@ -133,9 +133,10 @@ bool Game::DoCollisions()
 				collided = true;
 				if (!box.IsSolid()) {
 					box.Destroy();
-					Levels[level].m_Bricks.erase(Levels[level].m_Bricks.begin() + box.GetIterator());
-					
-					
+					auto pos = std::find_if(Levels[this->level].m_BreakBrick.begin(), Levels[this->level].m_BreakBrick.end(), [&](const GameObject& obj) {
+						return obj.m_Position == box.m_Position;
+						});
+					Levels[this->level].m_BreakBrick.erase(pos);
 				}
 				Direction dir = std::get<1>(collision);
 				glm::vec2 diff_vec = std::get<2>(collision);

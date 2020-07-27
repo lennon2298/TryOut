@@ -12,8 +12,7 @@
 class GameLevel {
 public:
 	std::vector<GameObject> m_Bricks;
-	std::vector<GameObject> m_BreakBrick;
-	glm::vec2 translationsSolid[7];
+	std::vector<glm::vec4> translationsSolid;
 	glm::vec2 translationsOne[50];
 	glm::vec2 translationsTwo[50];
 	glm::vec2 translationsThree[50];

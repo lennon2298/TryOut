@@ -26,7 +26,7 @@ void GameLevel::Load(const char* file, unsigned int levelWidth, unsigned int lev
 
 void GameLevel::Draw(SpriteRenderer& renderer)
 {
-	for (GameObject& tile : this->m_BreakBrick)
+	for (GameObject& tile : this->m_Bricks)
 		if (!tile.IsDestroyed())
 			tile.Draw(renderer);
 }
@@ -36,7 +36,9 @@ void GameLevel::DrawInstanced(SpriteRenderer& renderer)
 	glActiveTexture(GL_TEXTURE0);
 	ResourceManager::GetTexture("block_solid").Bind();
 	glm::vec2 size(unit_width - 1.0, unit_height);
-	renderer.DrawInstanced(solidCount, *translationsSolid, size, glm::vec3(0.8f, 0.8f, 0.7f));
+	renderer.DrawInstanced(std::size(translationsSolid), translationsSolid[0], size, glm::vec3(0.8f, 0.8f, 0.7f));
+	//std::cout << std::size(translationsSolid) << std::endl;
+	//std::cout << iterator << std::endl;
 	//glActiveTexture(GL_TEXTURE0);
 	//ResourceManager::GetTexture("block").Bind();
 	//renderer.DrawInstanced(oneCount, *translationsOne, size, glm::vec3(0.2f, 0.6f, 1.0f));
@@ -69,9 +71,9 @@ void GameLevel::Init(std::vector<std::vector<unsigned int>> tileData, unsigned i
 				GameObject obj(pos, size, ResourceManager::GetTexture("block_solid"), iterator, glm::vec3(0.8f, 0.8f, 0.7f));
 				obj.SetSolid();
 				this->m_Bricks.push_back(obj);
-				translationsSolid[solidCount] = pos;
-				solidCount++;
-				iterator++;
+				translationsSolid.push_back(glm::vec4(pos, 0, 0));
+				//solidCount++;
+				//iterator++;
 			}
 			else if(tileData[y][x] > 1) {
 				glm::vec2 pos(unit_width * x, unit_height * y);
@@ -79,46 +81,26 @@ void GameLevel::Init(std::vector<std::vector<unsigned int>> tileData, unsigned i
 				glm::vec3 color = glm::vec3(1.0f); // original: white
 				if (tileData[y][x] == 2) {
 					color = glm::vec3(0.2f, 0.6f, 1.0f);
-					translationsOne[oneCount] = pos;
-					oneCount++;
+					translationsSolid.push_back(glm::vec4(pos, 0, 2));
 				}
 				else if (tileData[y][x] == 3) {
 					color = glm::vec3(0.0f, 0.7f, 0.0f);
-					translationsTwo[twoCount] = pos;
-					twoCount++;
+					translationsSolid.push_back(glm::vec4(pos, 0, 3));
 				}
 				else if (tileData[y][x] == 4) {
 					color = glm::vec3(0.8f, 0.8f, 0.4f);
-					translationsThree[threeCount] = pos;
-					threeCount++;
+					translationsSolid.push_back(glm::vec4(pos, 0, 4));
 				}
 				else if (tileData[y][x] == 5) {
 					color = glm::vec3(1.0f, 0.5f, 0.0f);
-					translationsFour[fourCount] = pos;
-					fourCount++;
+					translationsSolid.push_back(glm::vec4(pos, 0, 5));
 				}
 
 				glm::vec2 size(unit_width - 1, unit_height);
 				GameObject obj(pos, size, ResourceManager::GetTexture("block"), iterator, color);
-				iterator++;
+				//iterator++;
 				this->m_Bricks.push_back(obj);
-				this->m_BreakBrick.push_back(obj);
 			}
 		}
 	}
-	/*for (glm::vec2 arr : translationsSolid) {
-		std::cout << arr.x << " " << arr.y << std::endl;
-	}
-	for (glm::vec2 arr : translationsOne) {
-		std::cout << arr.x << " " << arr.y << std::endl;
-	}
-	for (glm::vec2 arr : translationsTwo) {
-		std::cout << arr.x << " " << arr.y << std::endl;
-	}
-	for (glm::vec2 arr : translationsThree) {
-		std::cout << arr.x << " " << arr.y << std::endl;
-	}
-	for (glm::vec2 arr : translationsFour) {
-		std::cout << arr.x << " " << arr.y << std::endl;
-	}*/
 }

@@ -13,12 +13,11 @@ public:
 	float       m_Rotation;
 	bool        m_IsSolid;
 	bool        m_Destroyed;
-	unsigned int m_iterator;
 
 	Texture m_Sprite;
 
 	GameObject();
-	GameObject(glm::vec2 pos, glm::vec2 size, Texture sprite, unsigned int iterator = 0, glm::vec3 color = glm::vec3(1.0f), glm::vec2 velocity = glm::vec2(0.0f, 0.0f));
+	GameObject(glm::vec2 pos, glm::vec2 size, Texture sprite, glm::vec3 color = glm::vec3(1.0f), glm::vec2 velocity = glm::vec2(0.0f, 0.0f));
 	// draw sprite
 	virtual void Draw(SpriteRenderer& renderer);
 
@@ -26,7 +25,6 @@ public:
 	bool IsSolid();
 	bool IsDestroyed();
 	void Destroy();
-	unsigned int GetIterator();
 
 	float GetPosition();
 	void UpdateVelocity(float x);

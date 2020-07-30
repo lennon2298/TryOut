@@ -1,12 +1,12 @@
 #include "GameObject.h"
 
 GameObject::GameObject()
-	:m_Position(100.0,100.0), m_Color(0.0, 0.0, 0.0), m_Size(10.0, 10.0), m_Velocity(0.0, 0.0), m_Sprite(), m_Rotation(0.0), m_IsSolid(false), m_Destroyed(false), m_iterator(0)
+	:m_Position(100.0,100.0), m_Color(0.0, 0.0, 0.0), m_Size(10.0, 10.0), m_Velocity(0.0, 0.0), m_Sprite(), m_Rotation(0.0), m_IsSolid(false), m_Destroyed(false)
 {
 }
 
-GameObject::GameObject(glm::vec2 pos, glm::vec2 size, Texture sprite, unsigned int iterator, glm::vec3 color, glm::vec2 velocity)
-	: m_Position(pos), m_iterator(iterator), m_Color(color), m_Size(size), m_Velocity(velocity), m_Sprite(sprite), m_Rotation(0.0), m_IsSolid(false), m_Destroyed(false)
+GameObject::GameObject(glm::vec2 pos, glm::vec2 size, Texture sprite, glm::vec3 color, glm::vec2 velocity)
+	: m_Position(pos), m_Color(color), m_Size(size), m_Velocity(velocity), m_Sprite(sprite), m_Rotation(0.0), m_IsSolid(false), m_Destroyed(false)
 {
 }
 
@@ -33,11 +33,6 @@ bool GameObject::IsDestroyed()
 void GameObject::Destroy()
 {
 	m_Destroyed = true;
-}
-
-unsigned int GameObject::GetIterator()
-{
-	return m_iterator;
 }
 
 float GameObject::GetPosition()

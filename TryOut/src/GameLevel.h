@@ -13,11 +13,7 @@ class GameLevel {
 public:
 	std::vector<GameObject> m_Bricks;
 	std::vector<glm::vec4> translationsSolid;
-	glm::vec2 translationsOne[50];
-	glm::vec2 translationsTwo[50];
-	glm::vec2 translationsThree[50];
-	glm::vec2 translationsFour[50];
-	unsigned int solidCount = 0, oneCount = 0, twoCount = 0, threeCount = 0, fourCount = 0, iterator = 0;
+
 	float unit_width = 0.0f, unit_height = 0.0f;
 
 	GameLevel() {};

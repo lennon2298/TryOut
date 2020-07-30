@@ -8,12 +8,14 @@
 #include "Shader.h"
 #include "Texture.h"
 #include "ErrorHandling.h"
+#include "ResourceManager.h"
 
 
 class SpriteRenderer {
 private:
 	Shader m_Shader;
 	unsigned int m_QuadVAO;
+	unsigned int instanceVBO;
 
 public:
 	SpriteRenderer(Shader shader);

@@ -16,7 +16,7 @@ public:
 	~Texture();
 	void Generate(unsigned int width, unsigned int height, unsigned char* data);
 
-	void Bind() const;
+	void Bind(unsigned int i=0) const;
 	void Unbind() const;
 	void SetTexWrap(unsigned int wrap_s, unsigned int wrap_t);
 	void SetMinMaxFilter(unsigned int minFilter, unsigned maxFilter);

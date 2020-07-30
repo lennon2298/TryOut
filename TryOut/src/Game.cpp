@@ -129,6 +129,7 @@ bool Game::DoCollisions()
 	for (GameObject& box : Levels[level].m_Bricks) {
 		if (!box.IsDestroyed()) {
 			Collision collision = CollisionControl::CheckCollisions(*Ball, box);
+			//std::cout << glm::distance(Ball->m_Position, box.m_Position) << std::endl;
 			if (std::get<0>(collision)) {
 				collided = true;
 				if (!box.IsSolid()) {

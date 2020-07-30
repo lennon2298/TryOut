@@ -1,7 +1,7 @@
 #include "GameObject.h"
 
 GameObject::GameObject()
-	:m_Position(0.0,0.0), m_Color(0.0, 0.0, 0.0), m_Size(0.0, 0.0), m_Velocity(0.0, 0.0), m_Sprite(), m_Rotation(0.0), m_IsSolid(false), m_Destroyed(false)
+	:m_Position(100.0,100.0), m_Color(0.0, 0.0, 0.0), m_Size(10.0, 10.0), m_Velocity(0.0, 0.0), m_Sprite(), m_Rotation(0.0), m_IsSolid(false), m_Destroyed(false)
 {
 }
 

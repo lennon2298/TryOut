@@ -28,9 +28,9 @@ void Texture::Generate(unsigned int width, unsigned int height, unsigned char* d
 	GLCall(glBindTexture(GL_TEXTURE_2D, 0));
 }
 
-void Texture::Bind() const
+void Texture::Bind(unsigned int i) const
 {
-	GLCall(glActiveTexture(GL_TEXTURE0));
+	GLCall(glActiveTexture(GL_TEXTURE0 + i));
 	GLCall(glBindTexture(GL_TEXTURE_2D, m_ID));
 }
 

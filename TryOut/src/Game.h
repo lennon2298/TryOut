@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/geometric.hpp>
 #include <vector>
+#include <algorithm>
 
 #include "SpriteRenderer.h"
 #include "ErrorHandling.h"

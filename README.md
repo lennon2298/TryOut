@@ -30,5 +30,5 @@ This project makes use of premake to generate project files.
 To generate Project files for Visual Studio 2019 open the provided batch file `createProjFiles.bat`
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details
 

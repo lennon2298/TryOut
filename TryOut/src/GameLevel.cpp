@@ -51,6 +51,10 @@ void GameLevel::Init(std::vector<std::vector<unsigned int>> tileData, unsigned i
 	unsigned int width = tileData[0].size();
 	unit_width = levelWidth / static_cast<float>(width);
 	unit_height = levelHeight / height;
+	//unit_width = 60.0f;
+	//unit_height = 30.0f;
+	std::cout << unit_width << std::endl;
+	std::cout << unit_height << std::endl;
 
 	for (unsigned int y = 0; y < height; ++y) {
 		for (unsigned int x = 0; x < width; ++x) {
